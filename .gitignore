@@ -1,0 +1,30 @@
+# Binaries
+cc-filter
+cc-filter.exe
+
+# Go build artifacts
+*.o
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+.DS_Store
+Thumbs.db
+
+*.log
+
+config.yaml
