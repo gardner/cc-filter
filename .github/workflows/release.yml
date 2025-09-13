@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build:
-    name: Build and Release
+    name: Build Binaries
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,7 +42,23 @@ jobs:
             go build -ldflags "$LDFLAGS" -o cc-filter-${{ matrix.goos }}-${{ matrix.goarch }}
           fi
 
-      - name: Upload Release Asset
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cc-filter-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: cc-filter-*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: cc-filter-*
