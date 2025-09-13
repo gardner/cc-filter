@@ -1,4 +1,14 @@
 # cc-filter: Claude Code Sensitive Information Filter
+
+```
+ ██████╗ ██████╗     ███████╗██╗██╗  ████████╗███████╗██████╗
+██╔════╝██╔════╝     ██╔════╝██║██║  ╚══██╔══╝██╔════╝██╔══██╗
+██║     ██║          █████╗  ██║██║     ██║   █████╗  ██████╔╝
+██║     ██║          ██╔══╝  ██║██║     ██║   ██╔══╝  ██╔══██╗
+╚██████╗╚██████╔╝    ██║     ██║███████╗██║   ███████╗██║  ██║
+ ╚═════╝ ╚═════╝     ╚═╝     ╚═╝╚══════╝╚═╝   ╚══════╝╚═╝  ╚═╝
+```
+
 >You are absolutely right, I can read everything from your `.env` file . Ah, I >see the problem. I shouldn't have access to this file!
 
 Claude Code, somewhere
@@ -9,30 +19,10 @@ Unlike Claude Code's built-in permissions and CLAUDE.md rules which can be bypas
 
 The tool comes with a comprehensive default configuration for common secrets and allows full customization through editable configuration files. Additionally, cc-filter provides a more powerful and flexible filtering system than basic pattern matching - supporting regex patterns, multiple replacement strategies, file-type aware filtering, and command-line argument analysis for complete protection coverage.
 
-## Features
-
-- **PreToolUse Hook**: Blocks tool calls that would expose sensitive files or data
-  - Prevents reading .env, .key, .pem files
-  - Blocks sensitive search patterns (api_key, secret, password)
-  - Filters dangerous bash commands
-- **UserPromptSubmit Hook**: Filters sensitive information from user prompts
-- **Content Filtering**: Removes API keys, secrets, tokens, passwords from text
-- **Comprehensive Logging**: Debug logs show exactly what Claude Code is sending
-- Uses only Go standard library
-- Fast and lightweight
-
 ## Installation
-
-### Option 1: Download Pre-built Binary (Recommended)
 
 Download the latest release for your platform:
 
-**Linux (x86_64):**
-```bash
-curl -L -o cc-filter https://github.com/wissem/cc-filter/releases/latest/download/cc-filter-linux-amd64
-chmod +x cc-filter
-sudo mv cc-filter /usr/local/bin/
-```
 
 **macOS (Intel):**
 ```bash
@@ -41,6 +31,7 @@ chmod +x cc-filter
 sudo mv cc-filter /usr/local/bin/
 ```
 
+
 **macOS (Apple Silicon):**
 ```bash
 curl -L -o cc-filter https://github.com/wissem/cc-filter/releases/latest/download/cc-filter-darwin-arm64
@@ -48,14 +39,11 @@ chmod +x cc-filter
 sudo mv cc-filter /usr/local/bin/
 ```
 
-
-### Option 2: Build from Source
-
-If you have Go installed:
-
+**Linux (x86_64):**
 ```bash
-go build -o cc-filter
-sudo mv cc-filter /usr/local/bin/  # Optional: add to PATH
+curl -L -o cc-filter https://github.com/wissem/cc-filter/releases/latest/download/cc-filter-linux-amd64
+chmod +x cc-filter
+sudo mv cc-filter /usr/local/bin/
 ```
 
 ## Usage with Claude Code Hooks
@@ -70,13 +58,13 @@ Create or update your Claude Code configuration file (usually `~/.config/claude-
     "PreToolUse": [{
       "hooks": [{
         "type": "command",
-        "command": "/path/to/cc-filter"
+        "command": "cc-filter"
       }]
     }],
     "UserPromptSubmit": [{
       "hooks": [{
         "type": "command",
-        "command": "/path/to/cc-filter"
+        "command": "cc-filter"
       }]
     }]
   }
@@ -93,13 +81,13 @@ For project-specific filtering, create `.claude-code/settings.json` in your proj
     "PreToolUse": [{
       "hooks": [{
         "type": "command", 
-        "command": "./cc-filter"
+        "command": "cc-filter"
       }]
     }],
     "UserPromptSubmit": [{
       "hooks": [{
         "type": "command", 
-        "command": "./cc-filter"
+        "command": "cc-filter"
       }]
     }]
   }
@@ -268,6 +256,3 @@ echo "COMPANY_API_KEY=abc123def456ghi789jkl012mno345pqr" | ./cc-filter
 
 See `configs/example-config.yaml` for a complete example showing all available options.
 
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
